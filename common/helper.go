@@ -1,6 +1,6 @@
 package common
 
-const DefaultOffset int = 5
+const DefaultLimit int = 5
 
 type APIResponse struct {
 	Code    int    `json:"code"`

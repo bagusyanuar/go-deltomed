@@ -10,30 +10,30 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type DivisionController struct {
-	DivisionService usecaseAdmin.DivisionService
+type LocationController struct {
+	LocationService usecaseAdmin.LocationService
 }
 
-func NewDivisionController(divisionService usecaseAdmin.DivisionService) DivisionController {
-	return DivisionController{DivisionService: divisionService}
+func NewLocationController(locationService usecaseAdmin.LocationService) LocationController {
+	return LocationController{LocationService: locationService}
 }
 
-func (controller *DivisionController) RegisterRoute(route *gin.Engine) {
+func (controller *LocationController) RegisterRoute(route *gin.Engine) {
 	api := route.Group("/api/admin")
 	{
-		api.GET("/division", controller.FindAll)
-		api.POST("/division", controller.Create)
-		api.GET("/division/:id", controller.FindByID)
-		api.PATCH("/division/:id", controller.Patch)
-		api.DELETE("/division/:id/delete", controller.Delete)
+		api.GET("/location", controller.FindAll)
+		api.POST("/location", controller.Create)
+		api.GET("/location/:id", controller.FindByID)
+		api.PATCH("/location/:id", controller.Patch)
+		api.DELETE("/location/:id/delete", controller.Delete)
 	}
 }
 
-func (controller *DivisionController) FindAll(c *gin.Context) {
+func (controller *LocationController) FindAll(c *gin.Context) {
 	q := c.Query("q")
 	limit, _ := strconv.Atoi(c.Query("limit"))
 	offset, _ := strconv.Atoi(c.Query("offset"))
-	data, err := controller.DivisionService.FindAll(q, limit, offset)
+	data, err := controller.LocationService.FindAll(q, limit, offset)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, common.APIResponse{
 			Code:    http.StatusInternalServerError,
@@ -49,9 +49,9 @@ func (controller *DivisionController) FindAll(c *gin.Context) {
 	})
 }
 
-func (controller *DivisionController) FindByID(c *gin.Context) {
+func (controller *LocationController) FindByID(c *gin.Context) {
 	id := c.Param("id")
-	data, err := controller.DivisionService.FindByID(id)
+	data, err := controller.LocationService.FindByID(id)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, common.APIResponse{
 			Code:    http.StatusInternalServerError,
@@ -67,8 +67,8 @@ func (controller *DivisionController) FindByID(c *gin.Context) {
 	})
 }
 
-func (controller *DivisionController) Create(c *gin.Context) {
-	var request request.CreateDivisionRequest
+func (controller *LocationController) Create(c *gin.Context) {
+	var request request.CreateLocationRequest
 	err := c.BindJSON(&request)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, common.APIResponse{
@@ -78,7 +78,7 @@ func (controller *DivisionController) Create(c *gin.Context) {
 		})
 		return
 	}
-	data, err := controller.DivisionService.Create(request)
+	data, err := controller.LocationService.Create(request)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, common.APIResponse{
 			Code:    http.StatusInternalServerError,
@@ -94,9 +94,9 @@ func (controller *DivisionController) Create(c *gin.Context) {
 	})
 }
 
-func (controller *DivisionController) Patch(c *gin.Context) {
+func (controller *LocationController) Patch(c *gin.Context) {
 	id := c.Param("id")
-	var request request.CreateDivisionRequest
+	var request request.CreateLocationRequest
 	err := c.BindJSON(&request)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, common.APIResponse{
@@ -106,7 +106,7 @@ func (controller *DivisionController) Patch(c *gin.Context) {
 		})
 		return
 	}
-	data, err := controller.DivisionService.Patch(id, request)
+	data, err := controller.LocationService.Patch(id, request)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, common.APIResponse{
 			Code:    http.StatusInternalServerError,
@@ -122,9 +122,9 @@ func (controller *DivisionController) Patch(c *gin.Context) {
 	})
 }
 
-func (controller *DivisionController) Delete(c *gin.Context) {
+func (controller *LocationController) Delete(c *gin.Context) {
 	id := c.Param("id")
-	err := controller.DivisionService.Delete(id)
+	err := controller.LocationService.Delete(id)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, common.APIResponse{
 			Code:    http.StatusInternalServerError,

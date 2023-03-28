@@ -31,9 +31,9 @@ func (service *implementsDivisionService) FindByID(id string) (data *model.Divis
 
 // FindAll implements admin.DivisionService
 func (service *implementsDivisionService) FindAll(param string, limit int, offset int) (data []model.Division, err error) {
-	//make default offset = 5
-	if offset == 0 {
-		offset = common.DefaultOffset
+	//make default limit = 5
+	if limit == 0 {
+		limit = common.DefaultLimit
 	}
 	return service.DivisionRepository.FindAll(param, limit, offset)
 }

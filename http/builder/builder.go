@@ -15,4 +15,14 @@ func BuildGroup(route *gin.Engine, db *gorm.DB) {
 	adminDivisionController := adminController.NewDivisionController(adminDivisionService)
 	adminDivisionController.RegisterRoute(route)
 
+	adminUserRepository := usecaseAdminRepositories.NewUserRepository(db)
+	adminUserService := usecaseAdminService.NewUserService(adminUserRepository)
+	adminUserController := adminController.NewUserController(adminUserService)
+	adminUserController.RegisterRoute(route)
+
+	adminLocationRepository := usecaseAdminRepositories.NewLocationRepository(db)
+	adminLocationService := usecaseAdminService.NewLocationService(adminLocationRepository)
+	adminLocationController := adminController.NewLocationController(adminLocationService)
+	adminLocationController.RegisterRoute(route)
+
 }

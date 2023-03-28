@@ -10,30 +10,30 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type DivisionController struct {
-	DivisionService usecaseAdmin.DivisionService
+type UserController struct {
+	UserService usecaseAdmin.UserService
 }
 
-func NewDivisionController(divisionService usecaseAdmin.DivisionService) DivisionController {
-	return DivisionController{DivisionService: divisionService}
+func NewUserController(userService usecaseAdmin.UserService) UserController {
+	return UserController{UserService: userService}
 }
 
-func (controller *DivisionController) RegisterRoute(route *gin.Engine) {
+func (controller *UserController) RegisterRoute(route *gin.Engine) {
 	api := route.Group("/api/admin")
 	{
-		api.GET("/division", controller.FindAll)
-		api.POST("/division", controller.Create)
-		api.GET("/division/:id", controller.FindByID)
-		api.PATCH("/division/:id", controller.Patch)
-		api.DELETE("/division/:id/delete", controller.Delete)
+		api.GET("/user", controller.FindAll)
+		api.POST("/user", controller.Create)
+		api.GET("/user/:id", controller.FindByID)
+		api.PATCH("/user/:id", controller.Patch)
+		api.DELETE("/user/:id/delete", controller.Delete)
 	}
 }
 
-func (controller *DivisionController) FindAll(c *gin.Context) {
+func (controller *UserController) FindAll(c *gin.Context) {
 	q := c.Query("q")
 	limit, _ := strconv.Atoi(c.Query("limit"))
 	offset, _ := strconv.Atoi(c.Query("offset"))
-	data, err := controller.DivisionService.FindAll(q, limit, offset)
+	data, err := controller.UserService.FindAll(q, limit, offset)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, common.APIResponse{
 			Code:    http.StatusInternalServerError,
@@ -49,9 +49,9 @@ func (controller *DivisionController) FindAll(c *gin.Context) {
 	})
 }
 
-func (controller *DivisionController) FindByID(c *gin.Context) {
+func (controller *UserController) FindByID(c *gin.Context) {
 	id := c.Param("id")
-	data, err := controller.DivisionService.FindByID(id)
+	data, err := controller.UserService.FindByID(id)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, common.APIResponse{
 			Code:    http.StatusInternalServerError,
@@ -67,8 +67,8 @@ func (controller *DivisionController) FindByID(c *gin.Context) {
 	})
 }
 
-func (controller *DivisionController) Create(c *gin.Context) {
-	var request request.CreateDivisionRequest
+func (controller *UserController) Create(c *gin.Context) {
+	var request request.CreateUserRequest
 	err := c.BindJSON(&request)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, common.APIResponse{
@@ -78,7 +78,7 @@ func (controller *DivisionController) Create(c *gin.Context) {
 		})
 		return
 	}
-	data, err := controller.DivisionService.Create(request)
+	data, err := controller.UserService.Create(request)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, common.APIResponse{
 			Code:    http.StatusInternalServerError,
@@ -94,9 +94,9 @@ func (controller *DivisionController) Create(c *gin.Context) {
 	})
 }
 
-func (controller *DivisionController) Patch(c *gin.Context) {
+func (controller *UserController) Patch(c *gin.Context) {
 	id := c.Param("id")
-	var request request.CreateDivisionRequest
+	var request request.CreateUserRequest
 	err := c.BindJSON(&request)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, common.APIResponse{
@@ -106,7 +106,7 @@ func (controller *DivisionController) Patch(c *gin.Context) {
 		})
 		return
 	}
-	data, err := controller.DivisionService.Patch(id, request)
+	data, err := controller.UserService.Patch(id, request)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, common.APIResponse{
 			Code:    http.StatusInternalServerError,
@@ -122,9 +122,9 @@ func (controller *DivisionController) Patch(c *gin.Context) {
 	})
 }
 
-func (controller *DivisionController) Delete(c *gin.Context) {
+func (controller *UserController) Delete(c *gin.Context) {
 	id := c.Param("id")
-	err := controller.DivisionService.Delete(id)
+	err := controller.UserService.Delete(id)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, common.APIResponse{
 			Code:    http.StatusInternalServerError,

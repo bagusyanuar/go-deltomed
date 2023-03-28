@@ -24,7 +24,7 @@ func (repository *implementsDivisionRepository) Patch(id string, entity model.Di
 	if err = repository.Database.Debug().Omit(clause.Associations).Where("id = ?", id).Updates(entity).Error; err != nil {
 		return nil, err
 	}
-	return nil, nil
+	return &entity, nil
 }
 
 // FindByID implements admin.DivisionRepository
