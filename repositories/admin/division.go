@@ -11,6 +11,22 @@ type implementsDivisionRepository struct {
 	Database *gorm.DB
 }
 
+// Delete implements admin.DivisionRepository
+func (repository *implementsDivisionRepository) Delete(id string) (err error) {
+	if err = repository.Database.Debug().Where("id = ?", id).Delete(&model.Division{}).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+// Patch implements admin.DivisionRepository
+func (repository *implementsDivisionRepository) Patch(id string, entity model.Division) (data *model.Division, err error) {
+	if err = repository.Database.Debug().Omit(clause.Associations).Where("id = ?", id).Updates(entity).Error; err != nil {
+		return nil, err
+	}
+	return nil, nil
+}
+
 // FindByID implements admin.DivisionRepository
 func (repository *implementsDivisionRepository) FindByID(id string) (data *model.Division, err error) {
 	if err = repository.Database.Debug().

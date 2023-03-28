@@ -11,6 +11,19 @@ type implementsDivisionService struct {
 	DivisionRepository usecaseAdmin.DivisionRepository
 }
 
+// Delete implements admin.DivisionService
+func (service *implementsDivisionService) Delete(id string) (err error) {
+	return service.DivisionRepository.Delete(id)
+}
+
+// Patch implements admin.DivisionService
+func (service *implementsDivisionService) Patch(id string, request request.CreateDivisionRequest) (data *model.Division, err error) {
+	entity := model.Division{
+		Name: request.Name,
+	}
+	return service.DivisionRepository.Patch(id, entity)
+}
+
 // FindByID implements admin.DivisionService
 func (service *implementsDivisionService) FindByID(id string) (data *model.Division, err error) {
 	return service.DivisionRepository.FindByID(id)
