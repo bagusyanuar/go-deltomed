@@ -18,3 +18,11 @@ type User struct {
 	UpdatedAt time.Time      `gorm:"column:updated_at;not null" json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at;" json:"deleted_at"`
 }
+
+type Division struct {
+	ID        uuid.UUID      `gorm:"type:char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;primaryKey;" json:"id"`
+	Name      string         `gorm:"column:name;type:varchar(255);not null" json:"name"`
+	CreatedAt time.Time      `gorm:"column:created_at;not null" json:"created_at"`
+	UpdatedAt time.Time      `gorm:"column:updated_at;not null" json:"updated_at"`
+	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at;" json:"deleted_at"`
+}

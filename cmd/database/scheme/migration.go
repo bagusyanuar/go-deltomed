@@ -8,5 +8,6 @@ import (
 
 func Migrate(database *gorm.DB) {
 	database.AutoMigrate(&User{})
+	database.AutoMigrate(&Division{})
 	log.Println("success migrate database")
 }
