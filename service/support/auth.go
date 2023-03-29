@@ -1,6 +1,7 @@
 package support
 
 import (
+	"github.com/bagusyanuar/go-deltomed/common"
 	"github.com/bagusyanuar/go-deltomed/exception"
 	"github.com/bagusyanuar/go-deltomed/http/request"
 	"github.com/bagusyanuar/go-deltomed/model"
@@ -26,7 +27,13 @@ func (service *implementsAuthService) SignIn(request request.CreateSignInRequest
 	if err != nil {
 		return "", exception.ErrorPasswordNotMatch
 	}
-	return
+
+	jwtSign := common.JWTSignReturn{
+		ID:       user.ID,
+		Username: user.Username,
+		Role:     "support",
+	}
+	return common.GenerateAccessToken(&jwtSign)
 }
 
 func NewAuthService(authRepository usecaseSupport.AuthRepository) usecaseSupport.AuthService {
