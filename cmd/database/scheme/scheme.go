@@ -40,6 +40,7 @@ type Complaint struct {
 	DivisionID uuid.UUID      `gorm:"type:char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;index:idx_division_id;not null;" json:"division_id"`
 	LocationID uuid.UUID      `gorm:"type:char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;index:idx_location_id;not null;" json:"location_id"`
 	TicketID   string         `gorm:"type:varchar(255);unique;not null;" json:"ticket_id"`
+	Date       datatypes.Date `gorm:"type:date;not null;" json:"date"`
 	Complaint  string         `gorm:"type:text;not null;" json:"complaint"`
 	Image      string         `gorm:"type:text;" json:"image"`
 	SupportID  uuid.UUID      `gorm:"type:char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;index:idx_support_id;not null;" json:"support_id"`
