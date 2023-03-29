@@ -19,6 +19,8 @@ type Complaint struct {
 	SupportID  uuid.UUID      `json:"support_id"`
 	EngineerID *uuid.UUID     `json:"engineer_id"`
 	AccessorID *uuid.UUID     `json:"accessor_id"`
+	Estimate   uint           `json:"estimate"`
+	Status     uint           `json:"status"`
 	CreatedAt  time.Time      `json:"created_at"`
 	UpdatedAt  time.Time      `json:"updated_at"`
 	DeletedAt  gorm.DeletedAt `json:"deleted_at"`

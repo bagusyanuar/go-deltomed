@@ -46,6 +46,8 @@ type Complaint struct {
 	SupportID  uuid.UUID      `gorm:"type:char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;index:idx_support_id;not null;" json:"support_id"`
 	EngineerID uuid.UUID      `gorm:"type:char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;index:idx_engineer_id;" json:"engineer_id"`
 	AccessorID uuid.UUID      `gorm:"type:char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;index:idx_accessor_id;" json:"accessor_id"`
+	Estimate   uint           `gorm:"type:int(11);not null;default:0;" json:"estimate"`
+	Status     uint           `gorm:"column:status;type:smallint(6);not null;default:0;" json:"status"`
 	CreatedAt  time.Time      `gorm:"column:created_at;not null" json:"created_at"`
 	UpdatedAt  time.Time      `gorm:"column:updated_at;not null" json:"updated_at"`
 	DeletedAt  gorm.DeletedAt `gorm:"column:deleted_at;" json:"deleted_at"`
