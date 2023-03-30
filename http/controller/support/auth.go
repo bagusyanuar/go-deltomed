@@ -22,11 +22,11 @@ func NewAuthController(authService usecaseSupport.AuthService) AuthController {
 func (controller *AuthController) RegisterRoute(route *gin.Engine) {
 	api := route.Group("/api/support")
 	{
-		api.POST("/sign-in", controller.GetData)
+		api.POST("/sign-in", controller.SignIn)
 	}
 }
 
-func (controller *AuthController) GetData(c *gin.Context) {
+func (controller *AuthController) SignIn(c *gin.Context) {
 	var request request.CreateSignInRequest
 	c.BindJSON(&request)
 	accessToken, err := controller.AuthService.SignIn(request)

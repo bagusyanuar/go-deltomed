@@ -40,7 +40,12 @@ func BuildGroup(route *gin.Engine, db *gorm.DB) {
 	//support group
 	supportAuthRepository := usecaseSupportRepositories.NewAuthRepository(db)
 	supportAuthService := usecaseSupportService.NewAuthService(supportAuthRepository)
-	supportController := supportController.NewAuthController(supportAuthService)
-	supportController.RegisterRoute(route)
+	supportAuthController := supportController.NewAuthController(supportAuthService)
+	supportAuthController.RegisterRoute(route)
+
+	supportDivisionRepository := usecaseSupportRepositories.NewDivisionRepository(db)
+	supportDivisionService := usecaseSupportService.NewDivisionService(supportDivisionRepository)
+	supportDivisionController := supportController.NewDivisionController(supportDivisionService)
+	supportDivisionController.RegisterRoute(route)
 
 }
