@@ -16,7 +16,7 @@ type implementsUserService struct {
 
 // Create implements admin.UserService
 func (service *implementsUserService) Create(request request.CreateUserRequest) (data *model.User, err error) {
-	roles, _ := json.Marshal([]string{"admin"})
+	roles, _ := json.Marshal([]string{request.Roles})
 	var password string
 	if request.Password != "" {
 		hash, err := bcrypt.GenerateFromPassword([]byte(request.Password), 13)
