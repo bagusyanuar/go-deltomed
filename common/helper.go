@@ -1,6 +1,9 @@
 package common
 
-const DefaultLimit int = 5
+const (
+	DefaultLimit int    = 5
+	ImagePath    string = "assets/complaints"
+)
 
 type APIResponse struct {
 	Code    int    `json:"code"`

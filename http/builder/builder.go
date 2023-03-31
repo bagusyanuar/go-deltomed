@@ -48,4 +48,9 @@ func BuildGroup(route *gin.Engine, db *gorm.DB) {
 	supportDivisionController := supportController.NewDivisionController(supportDivisionService)
 	supportDivisionController.RegisterRoute(route)
 
+	supportComplaintRepository := usecaseSupportRepositories.NewComplaintRepository(db)
+	supportComplaintService := usecaseSupportService.NewComplaintService(supportComplaintRepository)
+	supportComplaintController := supportController.NewComplaintController(supportComplaintService)
+	supportComplaintController.RegisterRoute(route)
+
 }
