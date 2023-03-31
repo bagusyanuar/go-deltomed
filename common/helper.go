@@ -7,8 +7,12 @@ import (
 )
 
 const (
-	DefaultLimit int    = 5
-	ImagePath    string = "assets/complaints"
+	DefaultLimit    int    = 5
+	ImagePath       string = "assets/complaints"
+	StatusPending   uint   = 0
+	StatusOnReceive uint   = 1
+	StatusOnProcess uint   = 2
+	StatusFinish    uint   = 3
 )
 
 type APIResponse struct {
