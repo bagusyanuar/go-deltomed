@@ -23,16 +23,17 @@ func (service *implementsComplaintService) Send(authorizedID uuid.UUID, request 
 
 	image := new(string)
 	if request.Image != nil {
-		// if _, err := os.Stat(common.ImagePath); os.IsNotExist(err) {
-		err := os.Mkdir(common.ImagePath, os.ModePerm)
-		if err != nil {
-			return nil, err
+		if _, err := os.Stat(common.ImagePath); os.IsNotExist(err) {
+			err = os.MkdirAll(common.ImagePath, os.ModePerm)
+			if err != nil {
+				return nil, err
+			}
 		}
-		// }
 
 		ext := filepath.Ext(request.Image.Filename)
 		fileName := fmt.Sprintf("%s/%s%s", common.ImagePath, uuid.New().String(), ext)
 		image = &fileName
+		common.UploadFile(request.Image, fileName)
 	}
 
 	divisionID, err := uuid.Parse(request.DivisionID)
