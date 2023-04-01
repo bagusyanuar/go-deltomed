@@ -10,5 +10,5 @@ type ComplaintRepository interface {
 }
 
 type ComplaintService interface {
-	GetData(divisionID string, status string) (data []response.APIComplaintManager, err error)
+	GetData(authorizedID string, status string) (data []response.APIComplaintManager, err error)
 }

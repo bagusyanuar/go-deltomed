@@ -3,12 +3,15 @@ package builder
 import (
 	adminController "github.com/bagusyanuar/go-deltomed/http/controller/admin"
 	engineerController "github.com/bagusyanuar/go-deltomed/http/controller/engineer"
+	managerController "github.com/bagusyanuar/go-deltomed/http/controller/manager"
 	supportController "github.com/bagusyanuar/go-deltomed/http/controller/support"
 	usecaseAdminRepositories "github.com/bagusyanuar/go-deltomed/repositories/admin"
 	usecaseEngineerRepositories "github.com/bagusyanuar/go-deltomed/repositories/engineer"
+	usecaseManagerRepositories "github.com/bagusyanuar/go-deltomed/repositories/manager"
 	usecaseSupportRepositories "github.com/bagusyanuar/go-deltomed/repositories/support"
 	usecaseAdminService "github.com/bagusyanuar/go-deltomed/service/admin"
 	usecaseEngineerService "github.com/bagusyanuar/go-deltomed/service/engineer"
+	usecaseManagerService "github.com/bagusyanuar/go-deltomed/service/manager"
 	usecaseSupportService "github.com/bagusyanuar/go-deltomed/service/support"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -53,4 +56,11 @@ func BuildGroup(route *gin.Engine, db *gorm.DB) {
 	supportComplaintController := supportController.NewComplaintController(supportComplaintService)
 	supportComplaintController.RegisterRoute(route)
 
+	//manager group
+	managerProfileRepository := usecaseManagerRepositories.NewProfileRepository(db)
+
+	managerComplaintRepository := usecaseManagerRepositories.NewComplaintRepository(db)
+	managerComplaintService := usecaseManagerService.NewComplaintService(managerComplaintRepository, managerProfileRepository)
+	managerComplaintController := managerController.NewComplaintController(managerComplaintService)
+	managerComplaintController.RegisterRoute(route)
 }

@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 
 	"github.com/bagusyanuar/go-deltomed/common"
+	"github.com/bagusyanuar/go-deltomed/exception"
 	"github.com/bagusyanuar/go-deltomed/http/request"
 	"github.com/bagusyanuar/go-deltomed/model"
 	usecaseAdmin "github.com/bagusyanuar/go-deltomed/usecase/admin"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -17,6 +19,9 @@ type implementsUserService struct {
 // Create implements admin.UserService
 func (service *implementsUserService) Create(request request.CreateUserRequest) (data *model.User, err error) {
 	roles, _ := json.Marshal([]string{request.Roles})
+	if request.Roles == "manager" && request.DivisionID == "" {
+		return nil, exception.ErrorDivisionEmpty
+	}
 	var password string
 	if request.Password != "" {
 		hash, err := bcrypt.GenerateFromPassword([]byte(request.Password), 13)
@@ -25,11 +30,21 @@ func (service *implementsUserService) Create(request request.CreateUserRequest) 
 		}
 		password = string(hash)
 	}
+
+	var divisionID *uuid.UUID
+	if request.DivisionID != "" {
+		dID, err := uuid.Parse(request.DivisionID)
+		if err != nil {
+			return nil, err
+		}
+		divisionID = &dID
+	}
 	entity := model.User{
-		Email:    request.Email,
-		Username: request.Username,
-		Password: &password,
-		Roles:    roles,
+		Email:      request.Email,
+		Username:   request.Username,
+		Password:   &password,
+		Roles:      roles,
+		DivisionID: divisionID,
 	}
 	return service.UserRepository.Create(entity)
 }

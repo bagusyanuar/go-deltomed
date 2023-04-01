@@ -37,3 +37,31 @@ func UploadFile(file *multipart.FileHeader, dst string) error {
 	_, err = io.Copy(out, src)
 	return err
 }
+
+func SetStatusFilter(status string) *uint {
+	s := new(uint)
+	switch status {
+	case "0":
+		{
+			tmp := StatusPending
+			s = &tmp
+		}
+	case "1":
+		{
+			tmp := StatusOnReceive
+			s = &tmp
+		}
+	case "2":
+		{
+			tmp := StatusOnProcess
+			s = &tmp
+		}
+	case "3":
+		{
+			tmp := StatusFinish
+			s = &tmp
+		}
+	default:
+	}
+	return s
+}
