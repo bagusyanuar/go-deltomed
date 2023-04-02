@@ -8,3 +8,8 @@ type SendComplaintRequest struct {
 	Complaint  string                `form:"complaint"`
 	Image      *multipart.FileHeader `form:"image"`
 }
+
+type SendApprovalRequest struct {
+	Status      uint   `json:"status"`
+	EngineeerID string `json:"engineer_id"`
+}

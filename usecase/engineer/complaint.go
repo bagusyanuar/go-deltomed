@@ -6,9 +6,9 @@ import (
 )
 
 type ComplaintRepository interface {
-	GetData(startDate string, endDate string) (data []model.Complaint, err error)
+	GetData(authorizedID string, startDate string, endDate string, status string) (data []model.Complaint, err error)
 }
 
 type ComplainService interface {
-	GetData(startDate string, endDate string) (data []response.APIComplaintEngineer, err error)
+	GetData(authorizedID string, status string, startDate string, endDate string) (data []response.APIComplaintEngineer, err error)
 }

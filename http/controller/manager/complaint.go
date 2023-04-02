@@ -6,6 +6,7 @@ import (
 
 	"github.com/bagusyanuar/go-deltomed/common"
 	"github.com/bagusyanuar/go-deltomed/http/middleware"
+	"github.com/bagusyanuar/go-deltomed/http/request"
 	usecaseManager "github.com/bagusyanuar/go-deltomed/usecase/manager"
 	"github.com/gin-gonic/gin"
 )
@@ -23,6 +24,7 @@ func (controller *ComplaintController) RegisterRoute(route *gin.Engine) {
 	api := route.Group("/api/manager")
 	{
 		api.GET("/complaint", controller.Middleware.Auth(), controller.GetData)
+		api.POST("/complaint/:id", controller.Middleware.Auth(), controller.SendApproval)
 	}
 }
 
@@ -57,5 +59,28 @@ func (controller *ComplaintController) GetData(c *gin.Context) {
 		Code:    http.StatusOK,
 		Message: "success",
 		Data:    data,
+	})
+}
+
+func (controller *ComplaintController) SendApproval(c *gin.Context) {
+	defer catch(c)
+	id := c.Param("id")
+	var request request.SendApprovalRequest
+	c.BindJSON(&request)
+
+	authorizedUser := c.MustGet("user").(*common.JWTClaims)
+	_, err := controller.ComplaintService.SendApproval(id, authorizedUser.Unique, request)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, common.APIResponse{
+			Code:    http.StatusInternalServerError,
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+	c.JSON(http.StatusOK, common.APIResponse{
+		Code:    http.StatusOK,
+		Message: "success",
+		Data:    nil,
 	})
 }

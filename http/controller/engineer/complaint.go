@@ -26,7 +26,9 @@ func (controller *ComplaintController) RegisterRoute(route *gin.Engine) {
 func (controller *ComplaintController) GetData(c *gin.Context) {
 	startDate := c.Query("start_date")
 	endDate := c.Query("end_date")
-	data, err := controller.ComplaintService.GetData(startDate, endDate)
+	status := c.Query("status")
+	authorizedUser := c.MustGet("user").(*common.JWTClaims)
+	data, err := controller.ComplaintService.GetData(authorizedUser.Unique.String(), startDate, endDate, status)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, common.APIResponse{
 			Code:    http.StatusInternalServerError,

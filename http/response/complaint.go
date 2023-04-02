@@ -13,6 +13,8 @@ type Complaint struct {
 	Date       datatypes.Date `json:"date"`
 	Complaint  string         `json:"complaint"`
 	Image      string         `json:"image"`
+	Estimate   uint           `json:"estimate"`
+	Status     uint           `json:"status"`
 	SupportID  uuid.UUID      `json:"support_id"`
 	EngineerID *uuid.UUID     `json:"engineer_id"`
 	AccessorID *uuid.UUID     `json:"accessor_id"`
@@ -22,12 +24,14 @@ type APIComplaintManager struct {
 	Complaint
 	Division *ComplainWithDivisionScheme `json:"division"`
 	Location *ComplainWithLocationScheme `json:"location"`
+	Support  *ComplainWithSupportScheme  `json:"support"`
 }
 
 type APIComplaintEngineer struct {
 	Complaint
-	Division *ComplainWithDivisionScheme `gorm:"foreignKey:DivisionID" json:"division"`
-	Location *ComplainWithLocationScheme `gorm:"foreignKey:LocationID" json:"location"`
+	Division *ComplainWithDivisionScheme `json:"division"`
+	Location *ComplainWithLocationScheme `json:"location"`
+	Support  *ComplainWithSupportScheme  `json:"support"`
 }
 
 type ComplainWithDivisionScheme struct {
@@ -38,4 +42,9 @@ type ComplainWithDivisionScheme struct {
 type ComplainWithLocationScheme struct {
 	ID   uuid.UUID `json:"id"`
 	Name string    `json:"name"`
+}
+
+type ComplainWithSupportScheme struct {
+	ID       uuid.UUID `json:"id"`
+	Username string    `json:"username"`
 }

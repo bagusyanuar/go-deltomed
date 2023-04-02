@@ -11,8 +11,8 @@ type implementsComplaintService struct {
 }
 
 // GetData implements engineer.ComplainService
-func (service *implementsComplaintService) GetData(startDate string, endDate string) (data []response.APIComplaintEngineer, err error) {
-	complaints, err := service.ComplaintRepository.GetData(startDate, endDate)
+func (service *implementsComplaintService) GetData(authorizedID string, status string, startDate string, endDate string) (data []response.APIComplaintEngineer, err error) {
+	complaints, err := service.ComplaintRepository.GetData(authorizedID, startDate, endDate, status)
 	if err != nil {
 		return []response.APIComplaintEngineer{}, err
 	}

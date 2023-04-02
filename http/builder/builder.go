@@ -35,6 +35,11 @@ func BuildGroup(route *gin.Engine, db *gorm.DB) {
 	adminLocationController.RegisterRoute(route)
 
 	//engineer group
+	engineerAuthRepository := usecaseEngineerRepositories.NewAuthRepository(db)
+	engineerAuthService := usecaseEngineerService.NewAuthService(engineerAuthRepository)
+	engineerAuthController := engineerController.NewAuthController(engineerAuthService)
+	engineerAuthController.RegisterRoute(route)
+
 	engineerComplaintRepository := usecaseEngineerRepositories.NewComplaintRepository(db)
 	engineerComplaintService := usecaseEngineerService.NewComplaintService(engineerComplaintRepository)
 	engineerComplaintController := engineerController.NewComplaintController(engineerComplaintService)
