@@ -13,3 +13,7 @@ type SendApprovalRequest struct {
 	Status      uint   `json:"status"`
 	EngineeerID string `json:"engineer_id"`
 }
+
+type SubmitComplaintRequest struct {
+	Estimate uint `json:"estimate"`
+}

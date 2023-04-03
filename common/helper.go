@@ -2,8 +2,12 @@ package common
 
 import (
 	"io"
+	"log"
 	"mime/multipart"
+	"net/http"
 	"os"
+
+	"github.com/gin-gonic/gin"
 )
 
 const (
@@ -64,4 +68,16 @@ func SetStatusFilter(status string) *uint {
 	default:
 	}
 	return s
+}
+
+func Catch(c *gin.Context) {
+	if r := recover(); r != nil {
+		log.Println(r)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, APIResponse{
+			Code:    http.StatusInternalServerError,
+			Message: "internal server error",
+			Data:    nil,
+		})
+		return
+	}
 }
