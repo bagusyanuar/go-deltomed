@@ -16,4 +16,5 @@ type SendApprovalRequest struct {
 
 type SubmitComplaintRequest struct {
 	Estimate uint `json:"estimate"`
+	Status   uint `json:"status"`
 }

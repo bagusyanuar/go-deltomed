@@ -24,7 +24,13 @@ func (repository *implementsComplaintRepository) SubmitComplaint(authorizedID st
 
 // GetDataDetail implements engineer.ComplaintRepository
 func (repository *implementsComplaintRepository) GetDetailComplaint(authorizedID string, id string) (data *model.Complaint, err error) {
-	if err = repository.Database.Debug().Where("id = ?", id).Where("engineer_id = ?", authorizedID).First(&data).Error; err != nil {
+	if err = repository.Database.Debug().
+		Preload("Support").
+		Preload("Division").
+		Preload("Location").
+		Where("id = ?", id).
+		Where("engineer_id = ?", authorizedID).
+		First(&data).Error; err != nil {
 		return nil, err
 	}
 	return data, nil

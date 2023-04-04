@@ -1,7 +1,6 @@
 package engineer
 
 import (
-	"github.com/bagusyanuar/go-deltomed/common"
 	"github.com/bagusyanuar/go-deltomed/http/request"
 	"github.com/bagusyanuar/go-deltomed/http/response"
 	"github.com/bagusyanuar/go-deltomed/model"
@@ -16,7 +15,7 @@ type implementsComplaintService struct {
 func (service *implementsComplaintService) SubmitComplaint(authorizedID string, id string, request request.SubmitComplaintRequest) (data *model.Complaint, err error) {
 	entity := model.Complaint{
 		Estimate: request.Estimate,
-		Status:   common.StatusOnProcess,
+		Status:   request.Status,
 	}
 	return service.ComplaintRepository.SubmitComplaint(authorizedID, id, entity)
 }
@@ -44,6 +43,7 @@ func (service *implementsComplaintService) GetDetailComplaint(authorizedID strin
 			},
 			Division: service.transformDivision(complaint.Division),
 			Location: service.transformLocation(complaint.Location),
+			Support:  service.transformSupport(complaint.Support),
 		}, nil
 	}
 	return nil, nil
@@ -76,6 +76,7 @@ func (service *implementsComplaintService) GetData(authorizedID string, status s
 			},
 			Division: service.transformDivision(complaint.Division),
 			Location: service.transformLocation(complaint.Location),
+			Support:  service.transformSupport(complaint.Support),
 		})
 	}
 	return data, nil
@@ -96,6 +97,16 @@ func (service *implementsComplaintService) transformLocation(location *model.Loc
 		return &response.ComplainWithLocationScheme{
 			ID:   location.ID,
 			Name: location.Name,
+		}
+	}
+	return nil
+}
+
+func (service *implementsComplaintService) transformSupport(support *model.User) *response.ComplainWithSupportScheme {
+	if support != nil {
+		return &response.ComplainWithSupportScheme{
+			ID:       support.ID,
+			Username: support.Username,
 		}
 	}
 	return nil
