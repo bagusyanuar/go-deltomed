@@ -19,6 +19,11 @@ import (
 
 func BuildGroup(route *gin.Engine, db *gorm.DB) {
 	//admin group
+	adminAuthRepository := usecaseAdminRepositories.NewAuthRepository(db)
+	adminAuthService := usecaseAdminService.NewAuthService(adminAuthRepository)
+	adminAuthController := adminController.NewAuthController(adminAuthService)
+	adminAuthController.RegisterRoute(route)
+
 	adminDivisionRepository := usecaseAdminRepositories.NewDivisionRepository(db)
 	adminDivisionService := usecaseAdminService.NewDivisionService(adminDivisionRepository)
 	adminDivisionController := adminController.NewDivisionController(adminDivisionService)

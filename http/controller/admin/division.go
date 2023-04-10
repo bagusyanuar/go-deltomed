@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/bagusyanuar/go-deltomed/common"
+	"github.com/bagusyanuar/go-deltomed/http/middleware"
 	"github.com/bagusyanuar/go-deltomed/http/request"
 	usecaseAdmin "github.com/bagusyanuar/go-deltomed/usecase/admin"
 	"github.com/gin-gonic/gin"
@@ -12,20 +13,21 @@ import (
 
 type DivisionController struct {
 	DivisionService usecaseAdmin.DivisionService
+	Middleware       middleware.Middleware
 }
 
 func NewDivisionController(divisionService usecaseAdmin.DivisionService) DivisionController {
-	return DivisionController{DivisionService: divisionService}
+	return DivisionController{DivisionService: divisionService, Middleware: middleware.Middleware{}}
 }
 
 func (controller *DivisionController) RegisterRoute(route *gin.Engine) {
 	api := route.Group("/api/admin")
 	{
-		api.GET("/division", controller.FindAll)
-		api.POST("/division", controller.Create)
-		api.GET("/division/:id", controller.FindByID)
-		api.PATCH("/division/:id", controller.Patch)
-		api.DELETE("/division/:id/delete", controller.Delete)
+		api.GET("/division", controller.Middleware.Auth(), controller.FindAll)
+		api.POST("/division", controller.Middleware.Auth(),controller.Create)
+		api.GET("/division/:id", controller.Middleware.Auth(),controller.FindByID)
+		api.PATCH("/division/:id", controller.Middleware.Auth(),controller.Patch)
+		api.DELETE("/division/:id/delete", controller.Middleware.Auth(),controller.Delete)
 	}
 }
 
