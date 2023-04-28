@@ -42,7 +42,7 @@ func (repository *implementsDivisionRepository) FindAll(param string, limit int,
 	if err = repository.Database.Debug().
 		Where("name LIKE ?", "%"+param+"%").
 		Limit(limit).
-		Offset(offset).
+		Offset(offset).Order("created_at asc").
 		Find(&data).Error; err != nil {
 		return data, err
 	}
