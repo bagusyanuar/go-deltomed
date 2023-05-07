@@ -33,6 +33,7 @@ func (repository *implementsLocationRepository) FindAll(param string, limit int,
 		Where("name LIKE ?", "%"+param+"%").
 		Limit(limit).
 		Offset(offset).
+		Order("created_at asc").
 		Find(&data).Error; err != nil {
 		return data, err
 	}
